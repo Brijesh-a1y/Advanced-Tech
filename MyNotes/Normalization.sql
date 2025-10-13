@@ -21,3 +21,30 @@ When to Normalize or Denormalize:
 - Denormalize when query performance is critical and the overhead of maintaining data integrity is acceptable.
 Example of Normalization:
 Consider a simple database for storing information about students and their courses.
+
+
+CTE => Common Table Expressions (CTEs) are temporary result sets that can be referenced within a SELECT, INSERT, UPDATE, or DELETE statement. 
+They provide a way to organize complex queries and improve readability. CTEs are defined using the WITH clause and can be
+ recursive or non-recursive.
+Example of a CTE:
+WITH EmployeeCTE AS (   
+    SELECT employee_id, employee_name, department_id
+    FROM employees
+    WHERE department_id IS NOT NULL
+)           
+SELECT e.employee_name, d.department_name
+FROM EmployeeCTE AS e   
+JOIN departments AS d ON e.department_id = d.department_id;
+In this example, the CTE named EmployeeCTE retrieves employees with a non-null department_id. The main query then joins this CTE with the departments table to get the department names for those employees.
+Students table              
+student_id	student_name	course_id
+1	        Alice	    101 
+2	        Bob	        102
+3	        Charlie	    101
+Courses table
+course_id	course_name         
+101	        Mathematics
+102	        Science
+In a normalized database, we would have two separate tables: Students and Courses. The Students table contains a foreign key (course_id) that references the Courses table. This structure eliminates redundancy by ensuring that course information is stored only once in the Courses table, even if multiple students are enrolled in the same course.
+In summary, normalization is a crucial aspect of database design that helps maintain data integrity, reduce redundancy, and improve overall efficiency. However, it is essential to balance normalization with performance considerations, as overly normalized databases can lead to complex queries and slower performance in certain scenarios.
+Example of Denormalization:
